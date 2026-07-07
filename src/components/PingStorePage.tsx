@@ -1,62 +1,60 @@
-import { useMemo, useState } from "react";
-
-type Variant = "matrix" | "lookbook" | "blueprint" | "fluid";
+import { useState } from "react";
 
 type PingStorePageProps = {
-  variant: Variant;
+  variant?: "matrix";
 };
 
 const finishes = [
   {
-    name: "Signal Black",
-    tone: "bg-neutral-950",
-    detail: "black titanium / mirror edge",
+    name: "Obsidian Titanium",
+    note: "polished black titanium",
+    swatch: "bg-neutral-950",
   },
   {
-    name: "Raw Titanium",
-    tone: "bg-zinc-300",
-    detail: "brushed silver / 2mm profile",
+    name: "Natural Titanium",
+    note: "brushed silver titanium",
+    swatch: "bg-zinc-300",
   },
   {
-    name: "Circuit Green",
-    tone: "bg-[#00FF66]",
-    detail: "limited electric accent",
+    name: "Signal Edition",
+    note: "electric green interior line",
+    swatch: "bg-[#00FF66]",
   },
 ];
 
 const whyNow = [
   {
-    title: "Real connection is rare again",
-    body: "After years of digital-first interaction and AI-generated noise, people want physical moments that feel human at conferences, coworking spaces, clubs, and campuses.",
+    title: "Digital identity became too fragmented.",
+    body: "Portfolios, socials, calendars, websites, and contact cards now live in too many places. Ping! turns the in-person exchange into one deliberate tap that opens the profile you choose.",
   },
   {
-    title: "Business cards are functionally dead",
-    body: "More than 27 billion paper business cards are printed globally every year, and 88% are thrown away within a week. Ping! turns the exchange into a tap that cannot be lost in a pocket.",
+    title: "Paper cards do not survive the week.",
+    body: "Over 27 billion paper business cards are printed globally every year, and 88% are thrown away within a single week. Ping! replaces the disposable object with a permanent identity key.",
   },
   {
-    title: "NFC is already native",
-    body: "Modern iPhone and Android devices read NFC without a scanning app. A single tap can open contacts, socials, portfolios, links, and the digital trail you choose to share.",
+    title: "NFC is already built into the room.",
+    body: "Modern iPhone and Android devices read NFC natively. No camera framing, no scanning app, no awkward QR-code pause; just a tap from the ring to the phone.",
   },
 ];
 
-const specs = [
+const productMoments = [
   {
-    eyebrow: "STRUCTURE",
-    title: "2.5g titanium, built like jewelry.",
-    body: "An ultra-lightweight titanium smart ring with a thin 2mm profile, designed for identity and connection rather than health tracking.",
-    stat: "2.5g",
+    label: "Thinner profile",
+    value: "2mm",
+    title: "A ring first, a device second.",
+    body: "A minimal titanium profile designed to disappear into daily wear while staying ready for the moment a real-world connection happens.",
   },
   {
-    eyebrow: "POWER",
-    title: "Zero-charging footprint.",
-    body: "Ping! uses built-in NFC, so the everyday exchange feels instant and native with no battery ritual added to your life.",
-    stat: "0x",
+    label: "Titanium weight",
+    value: "2.5g",
+    title: "Ultra-light, high signal.",
+    body: "Ping! is built around a 2.5g titanium body, giving the product a premium jewelry feel without turning it into another screen or tracker.",
   },
   {
-    eyebrow: "REACH",
-    title: "Every tap is a live product demo.",
-    body: "Early cohorts scaled beyond 270 active rings, with each in-person tap showing the product to someone new in the wild.",
-    stat: "270+",
+    label: "Charging",
+    value: "0",
+    title: "No battery ritual.",
+    body: "Built-in NFC creates a zero-charging footprint for the exchange itself. The ring is always ready when the room turns into an opportunity.",
   },
 ];
 
@@ -64,206 +62,143 @@ const team = [
   {
     name: "Vaness “Reece” Gardner",
     role: "Founder & CEO",
-    body: "Former AI specialist at Babson College and Babson alum. Founded The Generator, an AI lab that grew past 1,000 members across the Boston technology landscape, including MIT, Harvard, researchers, venture partners, students, and local business owners.",
-    focus: "Strategic vision, wearable design, supply chain logistics, institutional sales, ecosystem relationships.",
+    intro:
+      "Former AI specialist at Babson College and Babson alum. Founded The Generator, Babson's AI lab that grew beyond 1,000 members across the Boston technology ecosystem.",
+    details:
+      "Reece moved Ping! from creative text-to-image-to-3D workflows into a physical titanium device worn by active users in under 12 months.",
   },
   {
     name: "Gaspard Seuge",
     role: "Co-Founder & CPO",
-    body: "HEC Paris educated product architect. Former Growth at MWM AI and AI Engineer at Sorare, the multi-billion-dollar fantasy sports web3 platform. Built the Ping! web and iOS apps and helped drive 300K+ organic impressions.",
-    focus: "Software product, brand systems, UX, mobile and web applications, go-to-market strategy.",
+    intro:
+      "HEC Paris educated product architect. Former Growth at MWM AI and AI Engineer at Sorare, the multi-billion-dollar fantasy sports web3 platform.",
+    details:
+      "Gaspard built the Ping! web and iOS applications and helped generate 300K+ organic impressions through the early brand and product system.",
   },
 ];
 
-const variants = {
-  matrix: {
-    label: "The Cinematic Matrix",
-    bg: "bg-black",
-    page: "font-sans tracking-tight",
-    nav: "border-[#00FF66]/35 bg-black/85 text-white",
-    heroGrid: "border-[#00FF66]/40",
-    media: "border-[#00FF66]/40 bg-black",
-    panel: "border-[#00FF66]/50 bg-black",
-    title: "text-5xl font-black uppercase leading-[0.86] text-white md:text-7xl lg:text-8xl",
-    subtitle: "text-lg font-semibold uppercase text-white md:text-xl",
-    copy: "text-sm leading-6 text-zinc-400",
-    accent: "text-[#00FF66]",
-    button: "border border-[#00FF66] bg-[#00FF66] px-6 py-4 text-sm font-black uppercase tracking-[0.24em] text-black transition hover:bg-black hover:text-[#00FF66]",
-    secondaryButton: "border border-[#00FF66]/60 px-5 py-4 text-xs font-bold uppercase tracking-[0.22em] text-[#00FF66]",
-    section: "border-t border-[#00FF66]/35",
-    card: "border border-[#00FF66]/35 bg-black",
-    serif: "",
-    mono: "font-mono",
-    round: "rounded-none",
-    ringGlow: "shadow-[0_0_70px_rgba(0,255,102,0.24)]",
-  },
-  lookbook: {
-    label: "The High-End Technical Lookbook",
-    bg: "bg-black",
-    page: "font-sans tracking-tight",
-    nav: "border-white/10 bg-black/75 text-white",
-    heroGrid: "border-white/10",
-    media: "border-white/10 bg-black",
-    panel: "border-white/10 bg-black",
-    title: "font-serif text-5xl leading-[0.95] text-white md:text-7xl lg:text-8xl",
-    subtitle: "font-serif text-2xl leading-tight text-white md:text-4xl",
-    copy: "text-sm leading-7 text-zinc-400",
-    accent: "text-[#00C853]",
-    button: "border border-white bg-white px-6 py-4 text-xs font-semibold uppercase tracking-[0.24em] text-black transition hover:border-[#00C853] hover:bg-[#00C853]",
-    secondaryButton: "px-0 py-4 text-xs uppercase tracking-[0.24em] text-[#00C853]",
-    section: "border-t border-white/10",
-    card: "border-0 bg-transparent",
-    serif: "font-serif",
-    mono: "font-mono",
-    round: "rounded-none",
-    ringGlow: "",
-  },
-  blueprint: {
-    label: "The Functional Blueprint Grid",
-    bg: "bg-black",
-    page: "font-mono tracking-tight",
-    nav: "border-[#00FF66]/45 bg-black text-white",
-    heroGrid: "border-[#00FF66]/45",
-    media: "border-[#00FF66]/45 bg-black",
-    panel: "border-[#00FF66]/45 bg-black",
-    title: "text-4xl font-bold uppercase leading-[0.92] text-white md:text-6xl lg:text-7xl",
-    subtitle: "text-lg font-bold uppercase text-white md:text-2xl",
-    copy: "text-xs leading-6 text-zinc-400",
-    accent: "text-[#00FF66]",
-    button: "border border-[#00FF66] bg-[#00FF66] px-6 py-4 text-xs font-bold uppercase tracking-[0.18em] text-black transition hover:bg-black hover:text-[#00FF66]",
-    secondaryButton: "border border-zinc-700 px-5 py-4 text-xs font-bold uppercase tracking-[0.18em] text-white",
-    section: "border-t border-[#00FF66]/45",
-    card: "border border-zinc-700 bg-black",
-    serif: "",
-    mono: "font-mono",
-    round: "rounded-none",
-    ringGlow: "shadow-[0_0_0_1px_rgba(0,255,102,0.5)]",
-  },
-  fluid: {
-    label: "The Fluid Motion Darkmode",
-    bg: "bg-black",
-    page: "font-sans tracking-tight",
-    nav: "border-white/10 bg-black/75 text-white backdrop-blur-xl",
-    heroGrid: "border-white/10",
-    media: "border-white/10 bg-zinc-950/70",
-    panel: "border-white/10 bg-zinc-950/65 backdrop-blur-xl",
-    title: "text-5xl font-semibold leading-[0.92] text-white md:text-7xl lg:text-8xl",
-    subtitle: "text-xl font-medium leading-tight text-zinc-100 md:text-3xl",
-    copy: "text-sm leading-7 text-zinc-400",
-    accent: "text-[#00FF66]",
-    button: "rounded-full bg-[#00FF66] px-7 py-4 text-sm font-bold text-black transition hover:scale-[1.02] hover:bg-white",
-    secondaryButton: "rounded-full border border-white/15 px-5 py-4 text-xs font-semibold uppercase tracking-[0.2em] text-white",
-    section: "border-t border-white/10",
-    card: "rounded-[2rem] border border-white/10 bg-white/[0.03] backdrop-blur",
-    serif: "",
-    mono: "font-mono",
-    round: "rounded-[2rem]",
-    ringGlow: "shadow-[0_0_100px_rgba(0,255,102,0.2)]",
-  },
-} satisfies Record<Variant, Record<string, string>>;
-
-function RingVisual({
-  variant,
-  tone,
-  label,
-  large = false,
-}: {
-  variant: Variant;
-  tone: string;
-  label: string;
-  large?: boolean;
-}) {
-  const v = variants[variant];
-  const isFluid = variant === "fluid";
-  const isBlueprint = variant === "blueprint";
-
+function RingObject({ swatch }: { swatch: string }) {
   return (
-    <div className={`relative isolate flex min-h-[22rem] items-center justify-center overflow-hidden ${v.media} ${v.round}`}>
-      {isFluid ? (
-        <div className="absolute inset-8 rounded-full bg-[radial-gradient(circle_at_45%_42%,rgba(0,255,102,0.36),transparent_44%),radial-gradient(circle_at_60%_70%,rgba(0,200,83,0.22),transparent_42%)] blur-2xl" />
-      ) : null}
-      {isBlueprint ? (
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(0,255,102,.12)_1px,transparent_1px),linear-gradient(90deg,rgba(0,255,102,.12)_1px,transparent_1px)] bg-[size:34px_34px]" />
-      ) : null}
-      <div
-        className={`relative aspect-square ${large ? "w-56 md:w-72" : "w-44 md:w-56"} rounded-full border-[18px] md:border-[24px] ${tone} border-current text-zinc-200 ${v.ringGlow}`}
-      >
+    <div className="relative flex aspect-square w-64 items-center justify-center md:w-80">
+      <div className="absolute inset-0 rounded-full bg-[#00FF66]/10 blur-3xl" />
+      <div className={`relative aspect-square w-full rounded-full border-[28px] ${swatch} border-current text-zinc-200 shadow-[0_0_90px_rgba(0,255,102,.12)]`}>
         <div className="absolute inset-[22%] rounded-full bg-black" />
-        <div className="absolute left-1/2 top-[-16%] h-10 w-[2px] -translate-x-1/2 bg-[#00FF66]" />
-        <div className="absolute bottom-[-2.75rem] left-1/2 -translate-x-1/2 whitespace-nowrap text-center">
-          <p className={`text-[10px] uppercase tracking-[0.28em] ${v.accent}`}>{label}</p>
-        </div>
+        <div className="absolute left-1/2 top-[-14%] h-12 w-px -translate-x-1/2 bg-[#00FF66]" />
       </div>
     </div>
   );
 }
 
-export function PingStorePage({ variant }: PingStorePageProps) {
+export function PingStorePage(_: PingStorePageProps) {
   const [finish, setFinish] = useState(finishes[0]);
   const [openWhy, setOpenWhy] = useState(0);
-  const [activeSpec, setActiveSpec] = useState(0);
-  const v = variants[variant];
-
-  const heroTagline = useMemo(() => {
-    if (variant === "lookbook") return "A titanium object for the return of real-world identity.";
-    if (variant === "blueprint") return "[OBJECT: NFC IDENTITY RING] engineered for physical-to-digital connection.";
-    if (variant === "fluid") return "Tap into the person in front of you, then carry the connection forward.";
-    return "The NFC identity ring for a world tired of cold digital noise.";
-  }, [variant]);
+  const [activeMoment, setActiveMoment] = useState(0);
 
   return (
-    <main className={`${v.bg} ${v.page} min-h-screen text-white`}>
-      <header className={`sticky top-0 z-50 flex items-center justify-between border-b px-5 py-4 md:px-8 ${v.nav}`}>
-        <a href="#top" className="text-sm font-bold uppercase tracking-[0.28em]">
+    <main className="min-h-screen bg-black font-sans text-white selection:bg-[#00FF66] selection:text-black">
+      <header className="fixed left-0 right-0 top-0 z-50 flex items-center justify-between border-b border-white/10 bg-black/35 px-5 py-4 text-white backdrop-blur-xl md:px-8">
+        <a href="#film" className="text-sm font-semibold uppercase tracking-[0.32em]">
           Ping!
         </a>
-        <nav className="hidden items-center gap-8 text-[11px] uppercase tracking-[0.24em] text-zinc-400 md:flex">
-          <a className="transition hover:text-[#00FF66]" href="#why">Why now</a>
-          <a className="transition hover:text-[#00FF66]" href="#specs">Specs</a>
-          <a className="transition hover:text-[#00FF66]" href="#team">Team</a>
+        <nav className="hidden items-center gap-8 text-[11px] uppercase tracking-[0.28em] text-white/60 md:flex">
+          <a className="transition hover:text-[#00FF66]" href="#store">
+            Store
+          </a>
+          <a className="transition hover:text-[#00FF66]" href="#why">
+            Why now
+          </a>
+          <a className="transition hover:text-[#00FF66]" href="#team">
+            Team
+          </a>
         </nav>
-        <a className={variant === "fluid" ? "rounded-full bg-white px-4 py-2 text-xs font-bold text-black" : `text-xs uppercase tracking-[0.22em] ${v.accent}`} href="#buy">
+        <a
+          className="border border-[#00FF66] bg-[#00FF66] px-4 py-2 text-xs font-bold uppercase tracking-[0.22em] text-black transition hover:bg-white"
+          href="mailto:hello@getping.today?subject=Get%20Ping!"
+        >
           Get Ping!
         </a>
       </header>
 
-      <section id="top" className={`grid min-h-screen border-b lg:grid-cols-[minmax(0,1.12fr)_minmax(25rem,0.88fr)] ${v.heroGrid}`}>
+      <section id="film" className="relative min-h-screen overflow-hidden">
+        <video
+          className="absolute inset-0 h-full w-full object-cover"
+          src="/ping-hero.mp4"
+          autoPlay
+          muted
+          loop
+          playsInline
+        />
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(0,0,0,.88),rgba(0,0,0,.26)_48%,rgba(0,0,0,.78)),linear-gradient(0deg,rgba(0,0,0,.9),transparent_34%,rgba(0,0,0,.35))]" />
+        <div className="relative z-10 flex min-h-screen items-end px-5 pb-16 pt-28 md:px-8 lg:pb-24">
+          <div className="max-w-5xl">
+            <p className="mb-5 text-xs font-bold uppercase tracking-[0.34em] text-[#00FF66]">
+              Introducing Ping! by Ping Ring Inc.
+            </p>
+            <h1 className="max-w-4xl text-6xl font-black uppercase leading-[0.84] tracking-[-0.06em] text-white md:text-8xl lg:text-[10rem]">
+              Built to be remembered.
+            </h1>
+            <div className="mt-8 grid max-w-4xl gap-6 border-t border-[#00FF66]/45 pt-7 md:grid-cols-[1.1fr_.9fr]">
+              <p className="text-xl font-semibold leading-tight text-white md:text-3xl">
+                A titanium NFC identity ring for portfolios, links, and real-world connection.
+              </p>
+              <p className="text-sm leading-7 text-zinc-300">
+                Ping! is not a health tracker. It is a physical key for your digital trail, made for the room, the introduction, and the follow-up after the moment passes.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="store" className="grid border-y border-white/10 bg-black lg:grid-cols-[minmax(0,1.12fr)_minmax(25rem,.88fr)]">
         <div className="grid gap-px bg-white/10 p-px lg:grid-cols-2">
-          <div className="lg:col-span-2">
-            <RingVisual variant={variant} tone={finish.tone} label={finish.name} large />
+          <div className="relative flex min-h-[46rem] items-center justify-center overflow-hidden bg-[#050505] lg:col-span-2">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_42%,rgba(0,255,102,.18),transparent_34%),linear-gradient(rgba(255,255,255,.04)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.04)_1px,transparent_1px)] bg-[size:auto,84px_84px,84px_84px]" />
+            <RingObject swatch={finish.swatch} />
+            <div className="absolute bottom-8 left-8 right-8 flex justify-between border-t border-[#00FF66]/35 pt-5 text-[11px] uppercase tracking-[0.26em] text-zinc-500">
+              <span>{finish.name}</span>
+              <span className="text-[#00FF66]">NFC identity ring</span>
+            </div>
           </div>
           {finishes.map((item) => (
             <button
+              className="group relative flex min-h-80 items-center justify-center overflow-hidden bg-black text-left"
               key={item.name}
-              className="text-left"
               onClick={() => setFinish(item)}
               type="button"
             >
-              <RingVisual variant={variant} tone={item.tone} label={item.name} />
+              <div className="absolute inset-0 opacity-0 transition group-hover:opacity-100 bg-[radial-gradient(circle_at_center,rgba(0,255,102,.14),transparent_46%)]" />
+              <RingObject swatch={item.swatch} />
+              <div className="absolute bottom-6 left-6 right-6 border-t border-white/10 pt-4">
+                <p className="text-sm font-semibold uppercase tracking-[0.22em] text-white">{item.name}</p>
+                <p className="mt-1 text-xs uppercase tracking-[0.18em] text-zinc-500">{item.note}</p>
+              </div>
             </button>
           ))}
         </div>
 
-        <aside className={`lg:sticky lg:top-[57px] lg:h-[calc(100vh-57px)] ${v.panel}`} id="buy">
-          <div className="flex h-full flex-col justify-between gap-10 p-6 md:p-10">
+        <aside className="border-l border-white/10 bg-black lg:sticky lg:top-0 lg:h-screen" id="buy">
+          <div className="flex h-full flex-col justify-between gap-12 p-6 pt-24 md:p-10 md:pt-28">
             <div>
-              <div className={`mb-8 flex items-center justify-between border-b pb-5 ${variant === "matrix" || variant === "blueprint" ? "border-[#00FF66]/35" : "border-white/10"}`}>
-                <span className={`text-[11px] uppercase tracking-[0.28em] ${v.accent}`}>{v.label}</span>
-                <span className={`text-[11px] uppercase tracking-[0.28em] ${variant === "blueprint" ? "text-[#00FF66]" : "text-zinc-500"}`}>NFC / 2.5g</span>
+              <div className="mb-8 flex items-center justify-between border-b border-white/10 pb-5">
+                <span className="text-[11px] font-bold uppercase tracking-[0.28em] text-[#00FF66]">
+                  Ping! Store
+                </span>
+                <span className="text-[11px] uppercase tracking-[0.28em] text-zinc-500">2.5g / no charge</span>
               </div>
-              <p className={`mb-3 text-sm uppercase tracking-[0.3em] ${v.accent}`}>Ping! by Ping Ring Inc.</p>
-              <h1 className={v.title}>Ping!</h1>
-              <p className={`mt-7 max-w-xl ${v.subtitle}`}>{heroTagline}</p>
-              <p className={`mt-5 max-w-xl ${v.copy}`}>
-                A smart ring designed purely for identity, portfolios, and bridging in-person connection to your digital trail. It is not a health tracker.
+              <p className="mb-4 text-sm uppercase tracking-[0.3em] text-zinc-500">Ping! by Ping Ring Inc.</p>
+              <h2 className="text-5xl font-black uppercase leading-[0.88] tracking-[-0.04em] text-white md:text-7xl">
+                The ring that carries your signal.
+              </h2>
+              <p className="mt-7 text-base leading-7 text-zinc-400">
+                Designed for identity, portfolios, and bridging physical in-person connection to your digital trail. Works natively with modern iPhone and Android devices through NFC.
               </p>
             </div>
 
             <div className="space-y-8">
               <div>
                 <div className="mb-4 flex items-center justify-between">
-                  <p className={`text-xs uppercase tracking-[0.24em] ${v.accent}`}>Select finish</p>
-                  <p className="text-xs text-zinc-500">{finish.detail}</p>
+                  <p className="text-xs font-bold uppercase tracking-[0.24em] text-[#00FF66]">Choose your finish</p>
+                  <p className="text-xs uppercase tracking-[0.18em] text-zinc-500">{finish.note}</p>
                 </div>
                 <div className="grid gap-3">
                   {finishes.map((item) => (
@@ -271,62 +206,65 @@ export function PingStorePage({ variant }: PingStorePageProps) {
                       className={`flex items-center justify-between border px-4 py-4 text-left transition ${
                         finish.name === item.name
                           ? "border-[#00FF66] text-white"
-                          : "border-white/12 text-zinc-400 hover:border-[#00FF66]/60 hover:text-white"
-                      } ${variant === "fluid" ? "rounded-full" : "rounded-none"}`}
+                          : "border-white/15 text-zinc-400 hover:border-[#00FF66]/70 hover:text-white"
+                      }`}
                       key={item.name}
                       onClick={() => setFinish(item)}
                       type="button"
                     >
-                      <span className="text-sm font-semibold">{item.name}</span>
-                      <span className={`h-4 w-4 rounded-full border border-white/30 ${item.tone}`} />
+                      <span>
+                        <span className="block text-sm font-semibold">{item.name}</span>
+                        <span className="mt-1 block text-[11px] uppercase tracking-[0.18em] text-zinc-500">
+                          {item.note}
+                        </span>
+                      </span>
+                      <span className={`h-5 w-5 rounded-full border border-white/30 ${item.swatch}`} />
                     </button>
                   ))}
                 </div>
               </div>
 
-              <div className={`grid grid-cols-3 border text-center ${variant === "matrix" || variant === "blueprint" ? "border-[#00FF66]/35" : "border-white/10"} ${variant === "fluid" ? "rounded-[1.5rem] overflow-hidden" : ""}`}>
-                {["2.5g titanium", "native NFC", "no scan app"].map((item) => (
-                  <div className="border-r border-inherit px-3 py-4 last:border-r-0" key={item}>
-                    <p className={`text-[10px] uppercase tracking-[0.18em] ${variant === "blueprint" ? "text-[#00FF66]" : "text-zinc-400"}`}>{item}</p>
+              <div className="grid grid-cols-3 border border-white/10 text-center">
+                {["2.5g titanium", "native NFC", "not health"].map((item) => (
+                  <div className="border-r border-white/10 px-3 py-4 last:border-r-0" key={item}>
+                    <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-zinc-400">{item}</p>
                   </div>
                 ))}
               </div>
 
-              <div className="flex flex-col gap-3 sm:flex-row">
-                <a className={`${v.button} text-center`} href="mailto:hello@getping.today?subject=Get%20Ping!">
-                  Get Ping!
-                </a>
-                <a className={`${v.secondaryButton} text-center`} href="#why">
-                  Why now
-                </a>
-              </div>
+              <a
+                className="block border border-[#00FF66] bg-[#00FF66] px-6 py-5 text-center text-sm font-black uppercase tracking-[0.24em] text-black transition hover:bg-white"
+                href="mailto:hello@getping.today?subject=Get%20Ping!"
+              >
+                Get Ping!
+              </a>
             </div>
           </div>
         </aside>
       </section>
 
-      <section id="why" className={`px-5 py-20 md:px-8 lg:py-28 ${v.section}`}>
-        <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[0.72fr_1fr]">
+      <section id="why" className="border-b border-white/10 px-5 py-24 md:px-8 lg:py-32">
+        <div className="mx-auto grid max-w-7xl gap-14 lg:grid-cols-[.72fr_1fr]">
           <div>
-            <p className={`mb-4 text-xs uppercase tracking-[0.28em] ${v.accent}`}>Why now</p>
-            <h2 className={variant === "lookbook" ? `${v.serif} text-5xl leading-tight md:text-7xl` : "text-4xl font-bold uppercase leading-tight md:text-6xl"}>
-              The moment for a physical digital identity key.
+            <p className="mb-5 text-xs font-bold uppercase tracking-[0.32em] text-[#00FF66]">Why now</p>
+            <h2 className="text-5xl font-black uppercase leading-[0.9] tracking-[-0.04em] text-white md:text-7xl">
+              The room matters again.
             </h2>
           </div>
-          <div className={`divide-y ${variant === "matrix" || variant === "blueprint" ? "divide-[#00FF66]/35" : "divide-white/10"}`}>
+          <div className="divide-y divide-white/10">
             {whyNow.map((item, index) => (
               <div key={item.title}>
                 <button
-                  className="flex w-full items-center justify-between gap-6 py-7 text-left"
+                  className="flex w-full items-center justify-between gap-6 py-8 text-left"
                   onClick={() => setOpenWhy(openWhy === index ? -1 : index)}
                   type="button"
                 >
-                  <span className="text-xl font-semibold text-white md:text-2xl">{item.title}</span>
-                  <span className={`text-3xl leading-none ${v.accent}`}>{openWhy === index ? "-" : "+"}</span>
+                  <span className="text-2xl font-semibold tracking-[-0.03em] text-white md:text-4xl">{item.title}</span>
+                  <span className="text-4xl font-light text-[#00FF66]">{openWhy === index ? "-" : "+"}</span>
                 </button>
                 <div className={`grid transition-all duration-500 ${openWhy === index ? "grid-rows-[1fr] pb-8" : "grid-rows-[0fr]"}`}>
                   <div className="overflow-hidden">
-                    <p className={`max-w-3xl ${v.copy}`}>{item.body}</p>
+                    <p className="max-w-3xl text-base leading-8 text-zinc-400">{item.body}</p>
                   </div>
                 </div>
               </div>
@@ -335,55 +273,60 @@ export function PingStorePage({ variant }: PingStorePageProps) {
         </div>
       </section>
 
-      <section id="specs" className={`min-h-screen px-5 py-20 md:px-8 lg:py-28 ${v.section}`}>
+      <section className="border-b border-white/10 px-5 py-24 md:px-8 lg:py-32">
         <div className="mx-auto max-w-7xl">
-          <div className="mb-10 flex flex-col justify-between gap-6 md:flex-row md:items-end">
+          <div className="mb-12 flex flex-col justify-between gap-8 md:flex-row md:items-end">
             <div>
-              <p className={`mb-4 text-xs uppercase tracking-[0.28em] ${v.accent}`}>Macro specification carousel</p>
-              <h2 className={variant === "lookbook" ? `${v.serif} text-5xl leading-tight md:text-7xl` : "text-4xl font-bold uppercase leading-tight md:text-6xl"}>
-                Hardware with nothing extra.
+              <p className="mb-5 text-xs font-bold uppercase tracking-[0.32em] text-[#00FF66]">
+                Rebuilt for physical connection
+              </p>
+              <h2 className="max-w-4xl text-5xl font-black uppercase leading-[0.9] tracking-[-0.04em] text-white md:text-7xl">
+                High-contrast hardware. Zero wasted ritual.
               </h2>
             </div>
             <div className="flex gap-2">
-              {specs.map((item, index) => (
+              {productMoments.map((item, index) => (
                 <button
-                  aria-label={`Show ${item.eyebrow}`}
-                  className={`h-2.5 w-10 transition ${activeSpec === index ? "bg-[#00FF66]" : "bg-white/20"}`}
-                  key={item.eyebrow}
-                  onClick={() => setActiveSpec(index)}
+                  aria-label={`Show ${item.label}`}
+                  className={`h-2.5 w-12 transition ${activeMoment === index ? "bg-[#00FF66]" : "bg-white/20"}`}
+                  key={item.label}
+                  onClick={() => setActiveMoment(index)}
                   type="button"
                 />
               ))}
             </div>
           </div>
 
-          <div className={`grid min-h-[34rem] overflow-hidden ${v.card} ${variant === "fluid" ? "lg:grid-cols-[0.9fr_1.1fr]" : "lg:grid-cols-2"}`}>
+          <div className="grid min-h-[38rem] overflow-hidden border border-white/10 bg-[#050505] lg:grid-cols-[.9fr_1.1fr]">
             <div className="relative flex items-center justify-center overflow-hidden border-b border-white/10 p-8 lg:border-b-0 lg:border-r">
-              {variant === "fluid" ? <div className="absolute h-96 w-96 rounded-full bg-[#00FF66]/20 blur-3xl" /> : null}
-              {variant === "blueprint" ? <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,.08)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.08)_1px,transparent_1px)] bg-[size:50px_50px]" /> : null}
-              <div className={`relative flex aspect-square w-64 items-center justify-center rounded-full border ${variant === "fluid" ? "border-[#00FF66]/35 bg-black/60" : "border-[#00FF66]/60"}`}>
-                <span className={`${v.accent} ${variant === "lookbook" ? "font-serif text-8xl" : "text-7xl font-black"}`}>{specs[activeSpec].stat}</span>
-              </div>
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,255,102,.18),transparent_42%)]" />
+              <span className="relative text-8xl font-black uppercase tracking-[-0.08em] text-[#00FF66] md:text-[11rem]">
+                {productMoments[activeMoment].value}
+              </span>
             </div>
             <div className="flex flex-col justify-between p-8 md:p-12">
               <div>
-                <p className={`mb-6 text-xs uppercase tracking-[0.28em] ${v.accent}`}>
-                  {variant === "blueprint" ? `[STATUS: ${specs[activeSpec].eyebrow}]` : specs[activeSpec].eyebrow}
+                <p className="mb-6 text-xs font-bold uppercase tracking-[0.28em] text-[#00FF66]">
+                  {productMoments[activeMoment].label}
                 </p>
-                <h3 className={variant === "lookbook" ? `${v.serif} text-5xl leading-tight text-white md:text-7xl` : "text-4xl font-bold uppercase leading-tight text-white md:text-6xl"}>
-                  {specs[activeSpec].title}
+                <h3 className="max-w-2xl text-5xl font-black uppercase leading-[0.92] tracking-[-0.04em] text-white md:text-7xl">
+                  {productMoments[activeMoment].title}
                 </h3>
-                <p className={`mt-8 max-w-xl ${v.copy}`}>{specs[activeSpec].body}</p>
+                <p className="mt-8 max-w-xl text-base leading-8 text-zinc-400">
+                  {productMoments[activeMoment].body}
+                </p>
               </div>
               <div className="mt-12 grid gap-3 md:grid-cols-3">
-                {specs.map((item, index) => (
+                {productMoments.map((item, index) => (
                   <button
-                    className={`border p-4 text-left transition ${activeSpec === index ? "border-[#00FF66] text-white" : "border-white/10 text-zinc-500 hover:text-white"}`}
-                    key={item.eyebrow}
-                    onClick={() => setActiveSpec(index)}
+                    className={`border p-4 text-left transition ${
+                      activeMoment === index ? "border-[#00FF66] text-white" : "border-white/10 text-zinc-500 hover:text-white"
+                    }`}
+                    key={item.label}
+                    onClick={() => setActiveMoment(index)}
                     type="button"
                   >
-                    <p className={`text-[10px] uppercase tracking-[0.2em] ${activeSpec === index ? v.accent : ""}`}>{item.eyebrow}</p>
+                    <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#00FF66]">{item.label}</p>
                     <p className="mt-2 text-sm">{item.title}</p>
                   </button>
                 ))}
@@ -393,34 +336,33 @@ export function PingStorePage({ variant }: PingStorePageProps) {
         </div>
       </section>
 
-      <section id="team" className={`px-5 py-20 md:px-8 lg:py-28 ${v.section}`}>
+      <section id="team" className="px-5 py-24 md:px-8 lg:py-32">
         <div className="mx-auto max-w-7xl">
-          <div className="mb-12 max-w-3xl">
-            <p className={`mb-4 text-xs uppercase tracking-[0.28em] ${v.accent}`}>Creator / team pedigree</p>
-            <h2 className={variant === "lookbook" ? `${v.serif} text-5xl leading-tight md:text-7xl` : "text-4xl font-bold uppercase leading-tight md:text-6xl"}>
-              Built by AI-native product operators.
+          <div className="mb-12 max-w-4xl">
+            <p className="mb-5 text-xs font-bold uppercase tracking-[0.32em] text-[#00FF66]">
+              Creator / team pedigree
+            </p>
+            <h2 className="text-5xl font-black uppercase leading-[0.9] tracking-[-0.04em] text-white md:text-7xl">
+              AI-native founders, physical product instincts.
             </h2>
           </div>
-          <div className={`grid ${variant === "lookbook" ? "gap-12 lg:grid-cols-2" : "gap-px bg-white/10 lg:grid-cols-2"}`}>
+          <div className="grid gap-px bg-white/10 lg:grid-cols-2">
             {team.map((person) => (
-              <article className={`${variant === "lookbook" ? "border-t border-white/10 pt-8" : `${v.card} p-8 md:p-10`}`} key={person.name}>
-                <p className={`mb-5 text-xs uppercase tracking-[0.28em] ${v.accent}`}>{person.role}</p>
-                <h3 className={variant === "lookbook" ? `${v.serif} text-4xl leading-tight text-white md:text-6xl` : "text-3xl font-bold uppercase leading-tight text-white md:text-5xl"}>
+              <article className="bg-black p-8 md:p-10" key={person.name}>
+                <p className="mb-5 text-xs font-bold uppercase tracking-[0.28em] text-[#00FF66]">{person.role}</p>
+                <h3 className="text-4xl font-black uppercase leading-[0.92] tracking-[-0.04em] text-white md:text-6xl">
                   {person.name}
                 </h3>
-                <p className={`mt-7 ${v.copy}`}>{person.body}</p>
-                <div className={`mt-8 border-t pt-6 ${variant === "matrix" || variant === "blueprint" ? "border-[#00FF66]/35" : "border-white/10"}`}>
-                  <p className={`mb-2 text-[10px] uppercase tracking-[0.24em] ${v.accent}`}>Focus</p>
-                  <p className="text-sm leading-6 text-zinc-300">{person.focus}</p>
-                </div>
+                <p className="mt-8 text-base leading-8 text-zinc-400">{person.intro}</p>
+                <p className="mt-6 border-t border-[#00FF66]/35 pt-6 text-sm leading-7 text-zinc-300">{person.details}</p>
               </article>
             ))}
           </div>
         </div>
       </section>
 
-      <footer className={`px-5 py-10 md:px-8 ${v.section}`}>
-        <div className="mx-auto flex max-w-7xl flex-col justify-between gap-4 text-xs uppercase tracking-[0.22em] text-zinc-500 md:flex-row">
+      <footer className="border-t border-white/10 px-5 py-10 md:px-8">
+        <div className="mx-auto flex max-w-7xl flex-col justify-between gap-4 text-xs uppercase tracking-[0.24em] text-zinc-500 md:flex-row">
           <p>Ping! by Ping Ring Inc.</p>
           <p>Identity. Portfolios. Real-world connection.</p>
         </div>

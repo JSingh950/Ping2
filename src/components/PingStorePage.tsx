@@ -87,10 +87,8 @@ function ProductSurface({
   compact?: boolean;
 }) {
   return (
-    <div className={`relative w-full max-w-2xl px-7 ${compact ? "py-16" : "py-24"}`}>
-      <div className="absolute inset-x-8 top-1/2 h-px bg-gradient-to-r from-transparent via-[#00FF66]/45 to-transparent" />
-      <div className="absolute inset-x-12 top-[calc(50%+2.5rem)] h-px bg-gradient-to-r from-transparent via-white/18 to-transparent" />
-      <div className="relative border border-white/10 bg-[linear-gradient(135deg,rgba(255,255,255,.13),rgba(255,255,255,.015)_42%,rgba(0,255,102,.08))] p-3 shadow-[0_28px_90px_rgba(0,0,0,.5)]">
+    <div className={`w-full max-w-2xl px-7 ${compact ? "py-10" : "py-16 md:py-24"}`}>
+      <div className="border border-white/10 bg-[linear-gradient(135deg,rgba(255,255,255,.13),rgba(255,255,255,.015)_42%,rgba(0,255,102,.08))] p-3 shadow-[0_28px_90px_rgba(0,0,0,.5)]">
         <div className={`h-16 border border-white/10 ${swatch} bg-opacity-90 shadow-[inset_0_1px_0_rgba(255,255,255,.22)] md:h-20`} />
         <div className="mt-3 flex items-center justify-between text-[10px] uppercase tracking-[0.24em] text-zinc-500">
           <span>{label}</span>
@@ -108,7 +106,7 @@ export function PingStorePage(_: PingStorePageProps) {
 
   return (
     <main className="min-h-screen bg-black font-sans text-white selection:bg-[#00FF66] selection:text-black">
-      <header className="fixed left-0 right-0 top-0 z-50 flex items-center justify-between border-b border-white/10 bg-black/45 px-5 py-4 text-white backdrop-blur-xl md:px-8">
+      <header className="sticky top-0 z-50 flex items-center justify-between border-b border-white/10 bg-black/90 px-5 py-4 text-white backdrop-blur-xl md:px-8">
         <a href="#film" className="text-sm font-medium tracking-[0.22em]">
           Ping!
         </a>
@@ -131,7 +129,7 @@ export function PingStorePage(_: PingStorePageProps) {
         </a>
       </header>
 
-      <section id="film" className="relative min-h-screen overflow-hidden">
+      <section id="film" className="relative min-h-[calc(100svh-65px)] overflow-hidden">
         <video
           className="absolute inset-0 h-full w-full object-cover"
           src="/ping-hero.mp4"
@@ -141,12 +139,12 @@ export function PingStorePage(_: PingStorePageProps) {
           playsInline
         />
         <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(0,0,0,.9),rgba(0,0,0,.32)_50%,rgba(0,0,0,.74)),linear-gradient(0deg,rgba(0,0,0,.92),transparent_42%,rgba(0,0,0,.42))]" />
-        <div className="relative z-10 flex min-h-screen items-end px-5 pb-16 pt-28 md:px-8 lg:pb-24">
+        <div className="relative z-10 flex min-h-[calc(100svh-65px)] items-end px-5 pb-14 pt-16 md:px-8 lg:pb-20">
           <div className="max-w-5xl">
             <p className="mb-5 text-xs font-medium uppercase tracking-[0.34em] text-[#00FF66]">
               Introducing Ping! by Ping Ring Inc.
             </p>
-            <h1 className="max-w-4xl text-6xl font-semibold leading-[0.9] tracking-[-0.06em] text-white md:text-8xl lg:text-[9rem]">
+            <h1 className="max-w-4xl text-5xl font-semibold leading-[0.94] tracking-[-0.05em] text-white sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl">
               The new gesture of connection.
             </h1>
             <div className="mt-8 grid max-w-4xl gap-6 border-t border-white/16 pt-7 md:grid-cols-[1.1fr_.9fr]">
@@ -161,27 +159,30 @@ export function PingStorePage(_: PingStorePageProps) {
         </div>
       </section>
 
-      <section id="store" className="grid border-y border-white/10 bg-black lg:grid-cols-[minmax(0,1.12fr)_minmax(25rem,.88fr)]">
+      <section id="store" className="grid scroll-mt-20 border-y border-white/10 bg-black lg:grid-cols-[minmax(0,1.12fr)_minmax(25rem,.88fr)]">
         <div className="grid gap-px bg-white/10 p-px lg:grid-cols-2">
-          <div className="relative flex min-h-[46rem] items-center justify-center overflow-hidden bg-[linear-gradient(135deg,#050505,#101010_52%,#020202)] lg:col-span-2">
-            <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#00FF66]/40 to-transparent" />
-            <div className="absolute inset-x-16 bottom-24 h-32 bg-gradient-to-r from-transparent via-white/[.06] to-transparent blur-2xl" />
-            <ProductSurface swatch={finish.swatch} label={finish.name} />
-            <div className="absolute bottom-8 left-8 right-8 flex justify-between border-t border-white/12 pt-5 text-[11px] uppercase tracking-[0.26em] text-zinc-500">
+          <div className="flex min-h-[34rem] flex-col justify-between overflow-hidden bg-[linear-gradient(135deg,#050505,#101010_52%,#020202)] md:min-h-[42rem] lg:col-span-2">
+            <div className="h-px w-full bg-gradient-to-r from-transparent via-[#00FF66]/40 to-transparent" />
+            <div className="flex flex-1 items-center justify-center">
+              <ProductSurface swatch={finish.swatch} label={finish.name} />
+            </div>
+            <div className="mx-6 mb-6 flex flex-col gap-2 border-t border-white/12 pt-5 text-[11px] uppercase tracking-[0.26em] text-zinc-500 sm:mx-8 sm:mb-8 sm:flex-row sm:justify-between">
               <span>{finish.name}</span>
               <span className="text-[#00FF66]">NFC identity ring</span>
             </div>
           </div>
           {finishes.map((item) => (
             <button
-              className="group relative flex min-h-80 items-center justify-center overflow-hidden bg-[#030303] text-left"
+              className="group flex min-h-80 flex-col justify-between overflow-hidden bg-[#030303] text-left"
               key={item.name}
               onClick={() => setFinish(item)}
               type="button"
             >
-              <div className="absolute inset-x-0 top-0 h-px opacity-0 transition group-hover:opacity-100 bg-gradient-to-r from-transparent via-[#00FF66]/40 to-transparent" />
-              <ProductSurface swatch={item.swatch} label={item.name} compact />
-              <div className="absolute bottom-6 left-6 right-6 border-t border-white/10 pt-4">
+              <div className="h-px w-full opacity-0 transition group-hover:opacity-100 bg-gradient-to-r from-transparent via-[#00FF66]/40 to-transparent" />
+              <div className="flex flex-1 items-center justify-center">
+                <ProductSurface swatch={item.swatch} label={item.name} compact />
+              </div>
+              <div className="mx-6 mb-6 border-t border-white/10 pt-4">
                 <p className="text-sm font-medium tracking-[0.14em] text-white">{item.name}</p>
                 <p className="mt-1 text-xs uppercase tracking-[0.18em] text-zinc-500">{item.note}</p>
               </div>
@@ -189,8 +190,8 @@ export function PingStorePage(_: PingStorePageProps) {
           ))}
         </div>
 
-        <aside className="border-l border-white/10 bg-black lg:sticky lg:top-0 lg:h-screen" id="buy">
-          <div className="flex h-full flex-col justify-between gap-12 p-6 pt-24 md:p-10 md:pt-28">
+        <aside className="border-l border-white/10 bg-black lg:sticky lg:top-[65px] lg:max-h-[calc(100svh-65px)] lg:overflow-y-auto" id="buy">
+          <div className="flex min-h-full flex-col justify-between gap-12 p-6 md:p-10">
             <div>
               <div className="mb-8 flex items-center justify-between border-b border-white/10 pb-5">
                 <span className="text-[11px] font-medium uppercase tracking-[0.28em] text-[#00FF66]">
@@ -199,7 +200,7 @@ export function PingStorePage(_: PingStorePageProps) {
                 <span className="text-[11px] uppercase tracking-[0.28em] text-zinc-500">2.5g / no charge</span>
               </div>
               <p className="mb-4 text-sm uppercase tracking-[0.3em] text-zinc-500">Ping! by Ping Ring Inc.</p>
-              <h2 className="text-5xl font-semibold leading-[0.95] tracking-[-0.05em] text-white md:text-7xl">
+              <h2 className="text-4xl font-semibold leading-[0.98] tracking-[-0.04em] text-white md:text-6xl">
                 Your identity, carried with intent.
               </h2>
               <p className="mt-7 text-base leading-7 text-zinc-400">
@@ -256,11 +257,11 @@ export function PingStorePage(_: PingStorePageProps) {
         </aside>
       </section>
 
-      <section id="why" className="border-b border-white/10 px-5 py-24 md:px-8 lg:py-32">
+      <section id="why" className="scroll-mt-20 border-b border-white/10 px-5 py-24 md:px-8 lg:py-32">
         <div className="mx-auto grid max-w-7xl gap-14 lg:grid-cols-[.72fr_1fr]">
           <div>
             <p className="mb-5 text-xs font-medium uppercase tracking-[0.32em] text-[#00FF66]">Why now</p>
-            <h2 className="text-5xl font-semibold leading-[0.95] tracking-[-0.05em] text-white md:text-7xl">
+            <h2 className="text-4xl font-semibold leading-[0.98] tracking-[-0.04em] text-white md:text-6xl lg:text-7xl">
               The room matters again.
             </h2>
           </div>
@@ -272,7 +273,7 @@ export function PingStorePage(_: PingStorePageProps) {
                   onClick={() => setOpenWhy(openWhy === index ? -1 : index)}
                   type="button"
                 >
-                  <span className="text-2xl font-semibold tracking-[-0.03em] text-white md:text-4xl">{item.title}</span>
+                  <span className="text-xl font-semibold tracking-[-0.03em] text-white md:text-3xl lg:text-4xl">{item.title}</span>
                   <span className="text-4xl font-light text-[#00FF66]">{openWhy === index ? "-" : "+"}</span>
                 </button>
                 <div className={`grid transition-all duration-500 ${openWhy === index ? "grid-rows-[1fr] pb-8" : "grid-rows-[0fr]"}`}>
@@ -293,7 +294,7 @@ export function PingStorePage(_: PingStorePageProps) {
               <p className="mb-5 text-xs font-medium uppercase tracking-[0.32em] text-[#00FF66]">
                 Rebuilt for physical connection
               </p>
-              <h2 className="max-w-4xl text-5xl font-semibold leading-[0.95] tracking-[-0.05em] text-white md:text-7xl">
+              <h2 className="max-w-4xl text-4xl font-semibold leading-[0.98] tracking-[-0.04em] text-white md:text-6xl lg:text-7xl">
                 High-precision hardware. Zero wasted ritual.
               </h2>
             </div>
@@ -312,8 +313,7 @@ export function PingStorePage(_: PingStorePageProps) {
 
           <div className="grid min-h-[38rem] overflow-hidden border border-white/10 bg-[linear-gradient(135deg,#030303,#111_55%,#050505)] lg:grid-cols-[.9fr_1.1fr]">
             <div className="relative flex items-center justify-center overflow-hidden border-b border-white/10 p-8 lg:border-b-0 lg:border-r">
-              <div className="absolute left-8 right-8 top-1/2 h-px bg-gradient-to-r from-transparent via-[#00FF66]/55 to-transparent" />
-              <span className="relative text-8xl font-semibold tracking-[-0.08em] text-[#00FF66] md:text-[11rem]">
+              <span className="text-7xl font-semibold tracking-[-0.06em] text-[#00FF66] md:text-9xl lg:text-[10rem]">
                 {productMoments[activeMoment].value}
               </span>
             </div>
@@ -322,7 +322,7 @@ export function PingStorePage(_: PingStorePageProps) {
                 <p className="mb-6 text-xs font-medium uppercase tracking-[0.28em] text-[#00FF66]">
                   {productMoments[activeMoment].label}
                 </p>
-                <h3 className="max-w-2xl text-5xl font-semibold leading-[0.95] tracking-[-0.05em] text-white md:text-7xl">
+                <h3 className="max-w-2xl text-4xl font-semibold leading-[0.98] tracking-[-0.04em] text-white md:text-6xl lg:text-7xl">
                   {productMoments[activeMoment].title}
                 </h3>
                 <p className="mt-8 max-w-xl text-base leading-8 text-zinc-400">
@@ -349,13 +349,13 @@ export function PingStorePage(_: PingStorePageProps) {
         </div>
       </section>
 
-      <section id="team" className="px-5 py-24 md:px-8 lg:py-32">
+      <section id="team" className="scroll-mt-20 px-5 py-24 md:px-8 lg:py-32">
         <div className="mx-auto max-w-7xl">
           <div className="mb-12 max-w-4xl">
             <p className="mb-5 text-xs font-medium uppercase tracking-[0.32em] text-[#00FF66]">
               Creator / team pedigree
             </p>
-            <h2 className="text-5xl font-semibold leading-[0.95] tracking-[-0.05em] text-white md:text-7xl">
+            <h2 className="text-4xl font-semibold leading-[0.98] tracking-[-0.04em] text-white md:text-6xl lg:text-7xl">
               AI-native founders, physical product instincts.
             </h2>
           </div>
@@ -363,7 +363,7 @@ export function PingStorePage(_: PingStorePageProps) {
             {team.map((person) => (
               <article className="bg-black p-8 md:p-10" key={person.name}>
                 <p className="mb-5 text-xs font-medium uppercase tracking-[0.28em] text-[#00FF66]">{person.role}</p>
-                <h3 className="text-4xl font-semibold leading-[0.95] tracking-[-0.05em] text-white md:text-6xl">
+                <h3 className="text-3xl font-semibold leading-[1] tracking-[-0.04em] text-white md:text-5xl">
                   {person.name}
                 </h3>
                 <p className="mt-8 text-base leading-8 text-zinc-400">{person.intro}</p>
